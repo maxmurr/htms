@@ -17,17 +17,26 @@ export default function SWRClientPage() {
         Fetched on the client with SWR caching.
       </p>
 
-      <div className="bg-muted p-4 rounded-lg mb-4">
-        {isLoading ? (
+      {isLoading ? (
+        <div className="bg-muted p-4 rounded-lg mb-4">
           <p className="text-sm text-muted-foreground">Loading...</p>
-        ) : error ? (
-          <p className="text-sm text-destructive">Error: {(error as Error).message}</p>
-        ) : (
+        </div>
+      ) : error ? (
+        <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-lg mb-4">
+          <h3 className="text-sm font-medium text-destructive mb-2">
+            Something went wrong
+          </h3>
+          <p className="text-xs text-muted-foreground">
+            {(error as Error).message || "An unexpected error occurred"}
+          </p>
+        </div>
+      ) : (
+        <div className="bg-muted p-4 rounded-lg mb-4">
           <pre className="text-sm overflow-auto">
             {JSON.stringify(data, null, 2)}
           </pre>
-        )}
-      </div>
+        </div>
+      )}
 
       <Button onClick={() => mutate()} disabled={isValidating} size="sm">
         {isValidating ? "Loading..." : "Revalidate"}
