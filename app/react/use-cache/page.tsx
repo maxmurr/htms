@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { connection } from "next/server";
 import { cacheTag, cacheLife } from "next/cache";
 import { api } from "@/lib/server";
 import { HealthUseCacheDisplay } from "./health-use-cache-display";
@@ -14,8 +13,12 @@ async function getCachedHealth() {
   "use cache";
   cacheTag("health");
   cacheLife("minutes");
-  const response = await api.health.get();
-  return response.data;
+  try {
+    const response = await api.health.get();
+    return response.data;
+  } catch {
+    return null;
+  }
 }
 
 function LoadingFallback() {
@@ -26,11 +29,12 @@ function LoadingFallback() {
   );
 }
 
-export default async function UseCachePage() {
-  await connection();
-
+async function CachedHealthWrapper() {
   const healthPromise = getCachedHealth();
+  return <HealthUseCacheDisplay promise={healthPromise} />;
+}
 
+export default function UseCachePage() {
   return (
     <>
       <h1 className="text-xl font-medium mb-1">cache</h1>
@@ -39,7 +43,7 @@ export default async function UseCachePage() {
       </p>
 
       <Suspense fallback={<LoadingFallback />}>
-        <HealthUseCacheDisplay promise={healthPromise} />
+        <CachedHealthWrapper />
       </Suspense>
     </>
   );
