@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { api } from "@/lib/server";
 import { HealthUseDisplay } from "./health-use-display";
 import { Skeleton } from "@/components/ui/skeleton";
+
+export const metadata: Metadata = {
+  title: "React 19 - use()",
+};
 
 function LoadingSkeleton() {
   return (

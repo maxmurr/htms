@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import {
   dehydrate,
@@ -7,6 +8,10 @@ import {
 import { healthQueryOptions } from "@/lib/queries";
 import { HealthDisplay } from "./health-display";
 import { Skeleton } from "@/components/ui/skeleton";
+
+export const metadata: Metadata = {
+  title: "React Query - Hydrate",
+};
 
 async function PrefetchedHealth() {
   const queryClient = new QueryClient();

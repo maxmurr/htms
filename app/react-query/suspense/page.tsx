@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import {
   dehydrate,
@@ -7,6 +8,10 @@ import {
 import { healthQueryOptions } from "@/lib/queries";
 import { HealthDisplaySuspense } from "./health-display-suspense";
 import { Skeleton } from "@/components/ui/skeleton";
+
+export const metadata: Metadata = {
+  title: "React Query - Stream",
+};
 
 function LoadingSkeleton() {
   return (

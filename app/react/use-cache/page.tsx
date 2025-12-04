@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { cacheTag, cacheLife } from "next/cache";
 import { api } from "@/lib/server";
 import { HealthUseCacheDisplay } from "./health-use-cache-display";
 import { Skeleton } from "@/components/ui/skeleton";
+
+export const metadata: Metadata = {
+  title: "React 19 - cache",
+};
 
 async function getCachedHealth() {
   "use cache";

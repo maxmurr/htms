@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { api } from "@/lib/server";
 import { HEALTH_KEY } from "@/lib/swr/fetcher";
 import { HealthDisplaySWR } from "./health-display-swr";
 import { Skeleton } from "@/components/ui/skeleton";
+
+export const metadata: Metadata = {
+  title: "SWR - Fallback",
+};
 
 async function PrefetchedHealth() {
   const healthData = await api.health.get().then((res) => res.data);

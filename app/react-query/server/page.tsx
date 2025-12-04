@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { api } from "@/lib/server";
 import { Skeleton } from "@/components/ui/skeleton";
+
+export const metadata: Metadata = {
+  title: "React Query - RSC",
+};
 
 async function HealthData() {
   const health = await api.health.get();
