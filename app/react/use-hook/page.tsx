@@ -11,9 +11,12 @@ function LoadingSkeleton() {
   );
 }
 
-export default function UseHookPage() {
+async function HealthPromiseWrapper() {
   const healthPromise = api.health.get().then((res) => res.data);
+  return <HealthUseDisplay promise={healthPromise} />;
+}
 
+export default function UseHookPage() {
   return (
     <>
       <h1 className="text-xl font-medium mb-1">use()</h1>
@@ -22,7 +25,7 @@ export default function UseHookPage() {
       </p>
 
       <Suspense fallback={<LoadingSkeleton />}>
-        <HealthUseDisplay promise={healthPromise} />
+        <HealthPromiseWrapper />
       </Suspense>
     </>
   );

@@ -13,9 +13,16 @@ function LoadingSkeleton() {
   );
 }
 
-export default async function SWRSuspensePage() {
+async function PrefetchedHealth() {
   const healthData = await api.health.get().then((res) => res.data);
+  return (
+    <SWRConfig value={{ fallback: { [HEALTH_KEY]: healthData } }}>
+      <HealthDisplaySWRSuspense />
+    </SWRConfig>
+  );
+}
 
+export default function SWRSuspensePage() {
   return (
     <>
       <h1 className="text-xl font-medium mb-1">Stream</h1>
@@ -23,11 +30,9 @@ export default async function SWRSuspensePage() {
         Server prefetch with SWR suspense mode.
       </p>
 
-      <SWRConfig value={{ fallback: { [HEALTH_KEY]: healthData } }}>
-        <Suspense fallback={<LoadingSkeleton />}>
-          <HealthDisplaySWRSuspense />
-        </Suspense>
-      </SWRConfig>
+      <Suspense fallback={<LoadingSkeleton />}>
+        <PrefetchedHealth />
+      </Suspense>
     </>
   );
 }

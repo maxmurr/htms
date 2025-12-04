@@ -16,10 +16,17 @@ function LoadingSkeleton() {
   );
 }
 
-export default async function SuspensePage() {
+async function PrefetchedHealth() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(healthQueryOptions);
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <HealthDisplaySuspense />
+    </HydrationBoundary>
+  );
+}
 
+export default function SuspensePage() {
   return (
     <>
       <h1 className="text-xl font-medium mb-1">Stream</h1>
@@ -27,11 +34,9 @@ export default async function SuspensePage() {
         Server prefetch with React Suspense boundaries.
       </p>
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<LoadingSkeleton />}>
-          <HealthDisplaySuspense />
-        </Suspense>
-      </HydrationBoundary>
+      <Suspense fallback={<LoadingSkeleton />}>
+        <PrefetchedHealth />
+      </Suspense>
     </>
   );
 }

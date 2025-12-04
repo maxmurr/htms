@@ -1,8 +1,19 @@
+import { Suspense } from "react";
 import { api } from "@/lib/server";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function ServerPage() {
+async function HealthData() {
   const health = await api.health.get();
+  return (
+    <div className="bg-muted p-4 rounded-lg">
+      <pre className="text-sm overflow-auto">
+        {JSON.stringify(health.data, null, 2)}
+      </pre>
+    </div>
+  );
+}
 
+export default function ServerPage() {
   return (
     <>
       <h1 className="text-xl font-medium mb-1">RSC</h1>
@@ -10,11 +21,9 @@ export default async function ServerPage() {
         Fetched on the server, no client JS needed.
       </p>
 
-      <div className="bg-muted p-4 rounded-lg">
-        <pre className="text-sm overflow-auto">
-          {JSON.stringify(health.data, null, 2)}
-        </pre>
-      </div>
+      <Suspense fallback={<Skeleton className="h-16 w-full bg-muted rounded-lg" />}>
+        <HealthData />
+      </Suspense>
     </>
   );
 }

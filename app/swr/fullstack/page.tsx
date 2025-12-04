@@ -1,11 +1,20 @@
+import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { api } from "@/lib/server";
 import { HEALTH_KEY } from "@/lib/swr/fetcher";
 import { HealthDisplaySWR } from "./health-display-swr";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function SWRFullStackPage() {
+async function PrefetchedHealth() {
   const healthData = await api.health.get().then((res) => res.data);
+  return (
+    <SWRConfig value={{ fallback: { [HEALTH_KEY]: healthData } }}>
+      <HealthDisplaySWR />
+    </SWRConfig>
+  );
+}
 
+export default function SWRFullStackPage() {
   return (
     <>
       <h1 className="text-xl font-medium mb-1">Fallback</h1>
@@ -13,9 +22,9 @@ export default async function SWRFullStackPage() {
         Prefetched on server with SWR fallback.
       </p>
 
-      <SWRConfig value={{ fallback: { [HEALTH_KEY]: healthData } }}>
-        <HealthDisplaySWR />
-      </SWRConfig>
+      <Suspense fallback={<Skeleton className="h-16 w-full bg-muted rounded-lg" />}>
+        <PrefetchedHealth />
+      </Suspense>
     </>
   );
 }
