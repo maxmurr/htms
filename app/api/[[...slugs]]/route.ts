@@ -1,19 +1,18 @@
 import { Elysia } from "elysia";
 
-// Simulate network latency for demo purposes
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const app = new Elysia({ prefix: "/api" })
   .get("/", () => "Hello from Elysia!")
   .get("/health", async () => {
-    await delay(1000); // 1 second delay
+    await delay(1000);
     return {
       status: "ok",
       timestamp: new Date().toISOString(),
     };
   })
   .post("/echo", async ({ request }) => {
-    await delay(500); // 0.5 second delay
+    await delay(500);
     const body = await request.json();
     return body;
   });
