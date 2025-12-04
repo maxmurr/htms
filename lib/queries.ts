@@ -7,4 +7,6 @@ export const healthQueryOptions = queryOptions({
     const response = await api.health.get();
     return response.data;
   },
+  staleTime: 1000 * 60, // 1 minute - prevents immediate refetch on mount
+  retry: false, // Explicit for server-side rendering
 });
