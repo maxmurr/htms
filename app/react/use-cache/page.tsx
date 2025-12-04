@@ -3,10 +3,10 @@ import { Suspense } from "react";
 import { cacheTag, cacheLife } from "next/cache";
 import { api } from "@/lib/server";
 import { HealthUseCacheDisplay } from "./health-use-cache-display";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "React 19 - cache",
+  description: "Server-side caching with use cache directive and tag-based revalidation in Next.js 16.",
 };
 
 async function getCachedHealth() {
@@ -17,10 +17,10 @@ async function getCachedHealth() {
   return response.data;
 }
 
-function LoadingSkeleton() {
+function LoadingFallback() {
   return (
     <div className="bg-muted p-4 rounded-lg">
-      <Skeleton className="h-16 w-full" />
+      <p className="text-sm text-muted-foreground">Loading...</p>
     </div>
   );
 }
@@ -35,7 +35,7 @@ export default function UseCachePage() {
         Server-side caching with tag-based revalidation.
       </p>
 
-      <Suspense fallback={<LoadingSkeleton />}>
+      <Suspense fallback={<LoadingFallback />}>
         <HealthUseCacheDisplay promise={healthPromise} />
       </Suspense>
     </>

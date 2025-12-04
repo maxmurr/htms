@@ -7,10 +7,10 @@ import {
 } from "@tanstack/react-query";
 import { healthQueryOptions } from "@/lib/queries";
 import { HealthDisplay } from "./health-display";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "React Query - Hydrate",
+  description: "Server-side prefetching with React Query HydrationBoundary for seamless client hydration.",
 };
 
 async function PrefetchedHealth() {
@@ -23,6 +23,14 @@ async function PrefetchedHealth() {
   );
 }
 
+function LoadingFallback() {
+  return (
+    <div className="bg-muted p-4 rounded-lg">
+      <p className="text-sm text-muted-foreground">Loading...</p>
+    </div>
+  );
+}
+
 export default function FullStackPage() {
   return (
     <>
@@ -31,7 +39,7 @@ export default function FullStackPage() {
         Prefetched on server, hydrated on client.
       </p>
 
-      <Suspense fallback={<Skeleton className="h-16 w-full bg-muted rounded-lg" />}>
+      <Suspense fallback={<LoadingFallback />}>
         <PrefetchedHealth />
       </Suspense>
     </>

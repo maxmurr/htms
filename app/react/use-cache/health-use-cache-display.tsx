@@ -1,7 +1,6 @@
 "use client";
 
 import { use, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { revalidateHealth } from "./actions";
 
@@ -16,13 +15,11 @@ export function HealthUseCacheDisplay({
   promise: Promise<HealthData>;
 }) {
   const health = use(promise);
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleRevalidate = () => {
     startTransition(async () => {
       await revalidateHealth();
-      router.refresh();
     });
   };
 

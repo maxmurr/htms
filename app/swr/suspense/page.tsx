@@ -4,16 +4,16 @@ import { SWRConfig } from "swr";
 import { api } from "@/lib/server";
 import { HEALTH_KEY } from "@/lib/swr/fetcher";
 import { HealthDisplaySWRSuspense } from "./health-display-swr-suspense";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "SWR - Stream",
+  description: "Streaming data with SWR suspense mode for progressive server-side rendering.",
 };
 
-function LoadingSkeleton() {
+function LoadingFallback() {
   return (
     <div className="bg-muted p-4 rounded-lg">
-      <Skeleton className="h-16 w-full" />
+      <p className="text-sm text-muted-foreground">Loading...</p>
     </div>
   );
 }
@@ -35,7 +35,7 @@ export default function SWRSuspensePage() {
         Server prefetch with SWR suspense mode.
       </p>
 
-      <Suspense fallback={<LoadingSkeleton />}>
+      <Suspense fallback={<LoadingFallback />}>
         <PrefetchedHealth />
       </Suspense>
     </>

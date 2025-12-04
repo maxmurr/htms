@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { api } from "@/lib/server";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "React Query - RSC",
+  description: "Server-side data fetching using React Server Components with zero client-side JavaScript.",
 };
 
 async function HealthData() {
@@ -18,6 +18,14 @@ async function HealthData() {
   );
 }
 
+function LoadingFallback() {
+  return (
+    <div className="bg-muted p-4 rounded-lg">
+      <p className="text-sm text-muted-foreground">Loading...</p>
+    </div>
+  );
+}
+
 export default function ServerPage() {
   return (
     <>
@@ -26,7 +34,7 @@ export default function ServerPage() {
         Fetched on the server, no client JS needed.
       </p>
 
-      <Suspense fallback={<Skeleton className="h-16 w-full bg-muted rounded-lg" />}>
+      <Suspense fallback={<LoadingFallback />}>
         <HealthData />
       </Suspense>
     </>

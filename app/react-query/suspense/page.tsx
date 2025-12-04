@@ -7,16 +7,16 @@ import {
 } from "@tanstack/react-query";
 import { healthQueryOptions } from "@/lib/queries";
 import { HealthDisplaySuspense } from "./health-display-suspense";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "React Query - Stream",
+  description: "Streaming data with React Suspense boundaries and React Query for progressive rendering.",
 };
 
-function LoadingSkeleton() {
+function LoadingFallback() {
   return (
     <div className="bg-muted p-4 rounded-lg">
-      <Skeleton className="h-16 w-full" />
+      <p className="text-sm text-muted-foreground">Loading...</p>
     </div>
   );
 }
@@ -39,7 +39,7 @@ export default function SuspensePage() {
         Server prefetch with React Suspense boundaries.
       </p>
 
-      <Suspense fallback={<LoadingSkeleton />}>
+      <Suspense fallback={<LoadingFallback />}>
         <PrefetchedHealth />
       </Suspense>
     </>

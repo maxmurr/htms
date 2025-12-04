@@ -4,10 +4,10 @@ import { SWRConfig } from "swr";
 import { api } from "@/lib/server";
 import { HEALTH_KEY } from "@/lib/swr/fetcher";
 import { HealthDisplaySWR } from "./health-display-swr";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "SWR - Fallback",
+  description: "Server-side prefetching with SWR fallback configuration for instant page loads.",
 };
 
 async function PrefetchedHealth() {
@@ -19,6 +19,14 @@ async function PrefetchedHealth() {
   );
 }
 
+function LoadingFallback() {
+  return (
+    <div className="bg-muted p-4 rounded-lg">
+      <p className="text-sm text-muted-foreground">Loading...</p>
+    </div>
+  );
+}
+
 export default function SWRFullStackPage() {
   return (
     <>
@@ -27,7 +35,7 @@ export default function SWRFullStackPage() {
         Prefetched on server with SWR fallback.
       </p>
 
-      <Suspense fallback={<Skeleton className="h-16 w-full bg-muted rounded-lg" />}>
+      <Suspense fallback={<LoadingFallback />}>
         <PrefetchedHealth />
       </Suspense>
     </>

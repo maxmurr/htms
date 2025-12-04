@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { api } from "@/lib/server";
 import { HealthUseDisplay } from "./health-use-display";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "React 19 - use()",
+  description: "Native promise unwrapping with React 19 use() hook for simplified async data handling.",
 };
 
-function LoadingSkeleton() {
+function LoadingFallback() {
   return (
     <div className="bg-muted p-4 rounded-lg">
-      <Skeleton className="h-16 w-full" />
+      <p className="text-sm text-muted-foreground">Loading...</p>
     </div>
   );
 }
@@ -29,7 +29,7 @@ export default function UseHookPage() {
         Native React 19 promise unwrapping.
       </p>
 
-      <Suspense fallback={<LoadingSkeleton />}>
+      <Suspense fallback={<LoadingFallback />}>
         <HealthPromiseWrapper />
       </Suspense>
     </>

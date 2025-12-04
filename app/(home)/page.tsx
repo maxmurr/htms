@@ -1,9 +1,4 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "Home",
-};
 
 function GitHubIcon() {
   return (

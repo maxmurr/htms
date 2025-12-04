@@ -3,15 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/client";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-
-function LoadingSkeleton() {
-  return (
-    <div className="bg-muted p-4 rounded-lg">
-      <Skeleton className="h-16 w-full" />
-    </div>
-  );
-}
 
 export default function ClientPage() {
   const { data, isLoading, error, refetch, isFetching } = useQuery({
@@ -29,21 +20,19 @@ export default function ClientPage() {
         Fetched on the client with React Query caching.
       </p>
 
-      {isLoading ? (
-        <LoadingSkeleton />
-      ) : error ? (
-        <div className="bg-muted p-4 rounded-lg mb-4">
+      <div className="bg-muted p-4 rounded-lg mb-4">
+        {isLoading ? (
+          <p className="text-sm text-muted-foreground">Loading...</p>
+        ) : error ? (
           <p className="text-sm text-destructive">Error: {(error as Error).message}</p>
-        </div>
-      ) : (
-        <div className="bg-muted p-4 rounded-lg mb-4">
+        ) : (
           <pre className="text-sm overflow-auto">
             {JSON.stringify(data, null, 2)}
           </pre>
-        </div>
-      )}
+        )}
+      </div>
 
-      <Button onClick={() => refetch()} disabled={isFetching} size="sm" className="mt-4">
+      <Button onClick={() => refetch()} disabled={isFetching} size="sm">
         {isFetching ? "Loading..." : "Refetch"}
       </Button>
     </>
