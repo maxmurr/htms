@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { cacheTag, cacheLife } from "next/cache";
 import { api } from "@/lib/server";
 import { HealthUseCacheDisplay } from "./health-use-cache-display";
@@ -25,7 +26,9 @@ function LoadingFallback() {
   );
 }
 
-export default function UseCachePage() {
+export default async function UseCachePage() {
+  await connection();
+
   const healthPromise = getCachedHealth();
 
   return (
