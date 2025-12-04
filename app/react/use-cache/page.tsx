@@ -13,12 +13,8 @@ async function getCachedHealth() {
   "use cache";
   cacheTag("health");
   cacheLife("minutes");
-  try {
-    const response = await api.health.get();
-    return response.data;
-  } catch {
-    return null;
-  }
+  const response = await api.health.get();
+  return response.data;
 }
 
 function LoadingFallback() {
